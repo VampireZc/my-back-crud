@@ -17,8 +17,14 @@ public class DeptController {
 
     // 限制只能get请求
     @GetMapping("/depts")
-    public Result lsit(){
-        List<Dept> list = deptService.findAll();
+    public Result list(@RequestParam(required = false) String name){
+        List<Dept> list;
+        System.out.println("name：" + name);
+        if (name != null && !name.isEmpty()){ // 根据名字查询
+            list = deptService.findByName(name);
+        }else {
+            list = deptService.findAll();
+        }
         return Result.success(list);
     }
 
@@ -39,5 +45,20 @@ public class DeptController {
     public Result add(@RequestBody Dept dept){
          deptService.save(dept);
         return Result.success();
+    }
+
+    //修改部门
+    @PutMapping("/depts")
+    public Result update(@RequestBody Dept dept){
+        deptService.update(dept);
+        return Result.success();
+    }
+
+    // 根据ID查询
+    @GetMapping("/depts/{id}")
+    // 获取路径上的参数
+    public Result getById(@PathVariable Integer id){
+        Dept dept = deptService.getById(id);
+        return Result.success(dept.getName());
     }
 }

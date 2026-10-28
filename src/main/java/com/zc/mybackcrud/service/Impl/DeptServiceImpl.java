@@ -14,6 +14,7 @@ public class DeptServiceImpl implements DeptService {
 
     @Autowired
     private DeptMapper deptMapper;
+
     @Override
     public List<Dept> findAll() {
         return deptMapper.findAll();
@@ -30,5 +31,21 @@ public class DeptServiceImpl implements DeptService {
         dept.setCreateTime(LocalDateTime.now());
         dept.setUpdateTime(LocalDateTime.now());
         deptMapper.save(dept);
+    }
+
+    @Override
+    public void update(Dept dept) {
+        dept.setUpdateTime(LocalDateTime.now());
+        deptMapper.update(dept);
+    }
+
+    @Override
+    public Dept getById(Integer id) {
+        return deptMapper.getById(id);
+    }
+
+    @Override
+    public List<Dept> findByName(String name) {
+        return deptMapper.findByName(name);
     }
 }
