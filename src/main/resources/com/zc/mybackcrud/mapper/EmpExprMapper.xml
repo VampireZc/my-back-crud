@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.mybackcrud.mapper.EmpExprMapper">
+<!--    新增-->
+    <insert id="add">
+        insert into emp_expr (emp_id, expr_start, expr_end, expr_company, expr_position, create_time, update_time)
+        values
+        <foreach collection="exprList" item="expr" separator=",">
+            (#{expr.empId}, #{expr.exprStart}, #{expr.exprEnd}, #{expr.exprCompany}, #{expr.exprPosition}, #{expr.createTime}, #{expr.updateTime})
+        </foreach>
+    </insert>
+<!--    删除-->
+    <delete id="deleteById">
+        delete from emp_expr where emp_id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+<!--    查询-->
+    <select id="findById" resultType="com.zc.mybackcrud.pojo.EmpExpr">
+        select * from emp_expr where emp_id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

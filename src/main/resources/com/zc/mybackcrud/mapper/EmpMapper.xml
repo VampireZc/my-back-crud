@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.mybackcrud.mapper.EmpMapper">
+    <!--    <select id="findAll" resultType="com.zc.mybackcrud.pojo.Emp">-->
+<!--        select e.*, d.name as dept_name from emp e, dept d-->
+<!--            where e.dept_id = d.id-->
+<!--            and e.name like CONCAT('%', #{name}, '%')-->
+<!--            and e.gender = #{gender}-->
+<!--            and e.entry_date between #{begin}-->
+<!--            and #{end} order by e.update_time desc limit #{pageNo}, #{pageSize}-->
+<!--    </select>-->
+
+    <!--动态sql-->
+    <select id="findAll" resultType="com.zc.mybackcrud.pojo.Emp">
+        select e.*, d.name as dept_name from emp e, dept d
+        <where>
+            e.dept_id = d.id
+            <if test="name != null and name != ''">
+                and e.name like CONCAT('%',#{name},'%')
+            </if>
+            <if test="gender != null and gender != 0">
+                and e.gender = #{gender}
+            </if>
+            <if test="begin != null and end != null">
+                and e.entry_date between #{begin}
+                and #{end}
+            </if>
+        </where>
+        order by e.update_time desc
+    </select>
+
+    <!--统计总条数-->
+    <select id="getCount" resultType="java.lang.Long">
+        select count(*) from emp e, dept d where e.dept_id = d.id
+    </select>
+
+    <!--批量删除员工-->
+    <delete id="deleteById">
+        delete from emp where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")" >
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--插入员工并返回主键-->
+    <insert id="insertEmp" useGeneratedKeys="true" keyProperty="id">
+        insert into emp (username, name, gender, phone, job, salary, dept_id, entry_date, image)
+        values (#{username}, #{name}, #{gender}, #{phone}, #{job}, #{salary}, #{deptId}, #{entryDate}, #{image})
+    </insert>
+
+</mapper>
