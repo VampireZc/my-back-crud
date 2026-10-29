@@ -1,13 +1,14 @@
 package com.zc.mybackcrud.service;
 
 import com.zc.mybackcrud.pojo.Dept;
+import com.zc.mybackcrud.pojo.PageResult;
 
 import java.util.List;
 
 public interface DeptService {
 
     // 查询所有部门
-    public List<Dept> findAll();
+    public PageResult findAll(Integer page, Integer pageSize);
 
     // 根据ID删除
     public Integer deleteById(Integer id);

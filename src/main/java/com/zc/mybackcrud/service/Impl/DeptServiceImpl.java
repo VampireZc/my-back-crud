@@ -1,7 +1,10 @@
 package com.zc.mybackcrud.service.Impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.zc.mybackcrud.mapper.DeptMapper;
 import com.zc.mybackcrud.pojo.Dept;
+import com.zc.mybackcrud.pojo.PageResult;
 import com.zc.mybackcrud.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +19,12 @@ public class DeptServiceImpl implements DeptService {
     private DeptMapper deptMapper;
 
     @Override
-    public List<Dept> findAll() {
-        return deptMapper.findAll();
+    public PageResult findAll(Integer page, Integer pageSize) {
+        // 使用分页工具
+        PageHelper.startPage(page, pageSize);
+        List<Dept> list = deptMapper.findAll();
+        Page<Dept> p = (Page<Dept>) list;
+        return new PageResult(p.getTotal(), p.getResult());
     }
 
     @Override
