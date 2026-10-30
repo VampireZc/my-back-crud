@@ -13,3 +13,10 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     # 开启表字段驼峰命名转换
     map-underscore-to-camel-case: true
+
+
+aliyun:
+  oss:
+    region: cn-hangzhou
+    bucketName: java-spring-zc
+    endpoint: https://oss-cn-hangzhou.aliyuncs.com

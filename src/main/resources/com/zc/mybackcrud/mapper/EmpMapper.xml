@@ -50,4 +50,68 @@
         values (#{username}, #{name}, #{gender}, #{phone}, #{job}, #{salary}, #{deptId}, #{entryDate}, #{image})
     </insert>
 
+    <!--修改员工-->
+    <update id="updateEmp">
+        update emp
+        <set>
+            <if test="username != null and username != ''">username=#{username},</if>
+            <if test="name != null and name != ''">name=#{name},</if>
+            <if test="gender != null">gender=#{gender},</if>
+            <if test="phone != null and phone != ''">phone=#{phone},</if>
+            <if test="job != null and job != 0">job=#{job},</if>
+            <if test="salary != null and salary != 0">salary=#{salary},</if>
+            <if test="deptId != null and deptId != 0">dept_id=#{deptId},</if>
+            <if test="entryDate != null">entry_date=#{entryDate},</if>
+            <if test="image != null and image != ''">image=#{image},</if>
+            <if test="updateTime != null">update_time=#{updateTime},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!--根据id查找员工-->
+    <select id="findById" resultType="com.zc.mybackcrud.pojo.Emp">
+        select e.*, d.name as dept_name from emp e, dept d where e.dept_id = d.id and e.id = #{id}
+    </select>
+
+    <!--聚合查询员工信息与经历-->
+    <!--需要手动封装返回结果-->
+    <select id="findByIdExpr" resultMap="empResultMap">
+        select *,
+        b.id as expr_id,
+        b.expr_start,
+        b.expr_end,
+        b.expr_company,
+        b.expr_position,
+        b.create_time as expr_create_time,
+        b.update_time as expr_update_time
+        from emp e left join emp_expr b on b.emp_id = e.id where e.id = #{id};
+    </select>
+
+    <resultMap id="empResultMap" type="com.zc.mybackcrud.pojo.Emp">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="name" column="name"/>
+        <result property="gender" column="gender"/>
+        <result property="phone" column="phone"/>
+        <result property="job" column="job"/>
+        <result property="salary" column="salary"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="entryDate" column="entry_date"/>
+        <result property="image" column="image"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="deptName" column="dept_name"/>
+
+        <collection property="exprList" ofType="com.zc.mybackcrud.pojo.EmpExpr">
+            <id property="id" column="expr_id"/>
+            <result property="exprStart" column="expr_start"/>
+            <result property="exprEnd" column="expr_end"/>
+            <result property="exprCompany" column="expr_company"/>
+            <result property="exprPosition" column="expr_position"/>
+            <result property="createTime" column="expr_create_time"/>
+            <result property="updateTime" column="expr_update_time"/>
+        </collection>
+    </resultMap>
+
+
 </mapper>

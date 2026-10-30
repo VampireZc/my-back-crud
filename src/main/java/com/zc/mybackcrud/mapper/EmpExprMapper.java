@@ -1,5 +1,6 @@
 package com.zc.mybackcrud.mapper;
 
+import com.zc.mybackcrud.pojo.Emp;
 import com.zc.mybackcrud.pojo.EmpExpr;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -14,6 +15,4 @@ public interface EmpExprMapper {
     public List<EmpExpr> findById(Integer[] ids);
     // 删除
     public void deleteById(Integer[] ids);
-
-
 }

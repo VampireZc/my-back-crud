@@ -39,9 +39,32 @@ public class EmpController {
         return Result.success();
     }
 
+    // 添加员工
     @PostMapping("/emps")
     public Result add(@RequestBody Emp emp){
         empService.insertEmp(emp);
         return Result.success();
     }
+
+    // 修改员工
+    @PutMapping("/emps")
+    public Result update(@RequestBody Emp emp){
+        empService.updateEmp(emp);
+        return Result.success();
+    }
+
+    // 查询员工
+    @GetMapping("/emps/{id}")
+    public Result findById(@PathVariable Integer id){
+        Emp emp = empService.findById(id);
+        return Result.success(emp);
+    }
+
+    // 一次查员工信息与员工经历
+    @GetMapping("/emps/exp/{id}")
+    public Result findByIdWithExp(@PathVariable Integer id){
+        Emp emp = empService.findByExp(id);
+        return Result.success(emp);
+    }
+
 }

@@ -28,4 +28,10 @@ public interface EmpMapper {
     // 也可以把返回主键配置写在mapper里面
     // @Options(useGeneratedKeys = true, keyProperty = "id")
     public void insertEmp(Emp emp);
+
+    public void updateEmp(Emp emp);
+
+    public Emp findById(Integer id);
+
+    public Emp findByIdExpr(Integer id);
 }
