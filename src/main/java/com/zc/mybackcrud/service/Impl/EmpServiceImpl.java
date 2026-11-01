@@ -4,10 +4,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.zc.mybackcrud.mapper.EmpExprMapper;
 import com.zc.mybackcrud.mapper.EmpMapper;
-import com.zc.mybackcrud.pojo.Emp;
-import com.zc.mybackcrud.pojo.EmpExpr;
-import com.zc.mybackcrud.pojo.EmpLog;
-import com.zc.mybackcrud.pojo.PageResult;
+import com.zc.mybackcrud.pojo.*;
+import com.zc.mybackcrud.pojo.ENUM.Subject;
 import com.zc.mybackcrud.service.EmpLogService;
 import com.zc.mybackcrud.service.EmpService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -120,5 +119,32 @@ public class EmpServiceImpl implements EmpService {
     @Override
     public Emp findByExp(Integer id) {
         return empMapper.findByIdExpr(id);
+    }
+
+    @Override
+    public EnumClazz findSimple() {
+        List<Map<String,Object>> list = empMapper.findSimple();
+
+//        List<Map<String, Object>> mapList = list.stream()
+//                .map(s-> Subject.option(String.valueOf(s.get("name")), s.get("value")))
+//                .toList();
+//
+//        // 这里还需要构建一个 学科 的枚举 格式需和 mapList 保持一致
+//        // 1:java, 2:前端, 3:大数据, 4:Python, 5:Go, 6:嵌入式
+//        List<Map<String, Object>> subjectList = Arrays.asList(
+//                Map.of("name", "java", "value", 1),
+//                Map.of("name", "前端", "value", 2),
+//                Map.of("name", "大数据", "value", 3),
+//                Map.of("name", "Python", "value", 4),
+//                Map.of("name", "Go", "value", 5),
+//                Map.of("name", "嵌入式", "value", 6)
+//        );
+
+        // 优化写法
+        List<Map<String, Object>> mapList = list.stream()
+                .map(s-> Subject.option(String.valueOf(s.get("name")), s.get("id")))
+                .toList();
+
+        return new EnumClazz(mapList, Subject.options());
     }
 }

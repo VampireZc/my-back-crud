@@ -1,10 +1,12 @@
 package com.zc.mybackcrud.service;
 
 import com.zc.mybackcrud.pojo.Emp;
+import com.zc.mybackcrud.pojo.EnumClazz;
 import com.zc.mybackcrud.pojo.PageResult;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface EmpService {
     // 分页查询
@@ -22,4 +24,7 @@ public interface EmpService {
     public Emp findById(Integer id);
 
     public Emp findByExp(Integer id);
+
+    // 员工枚举
+    public EnumClazz findSimple();
 }

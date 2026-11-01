@@ -86,6 +86,10 @@
         b.update_time as expr_update_time
         from emp e left join emp_expr b on b.emp_id = e.id where e.id = #{id};
     </select>
+    <select id="findSimple" resultType="java.util.Map">
+        select id ,name from emp
+    </select>
+
 
     <resultMap id="empResultMap" type="com.zc.mybackcrud.pojo.Emp">
         <id property="id" column="id"/>

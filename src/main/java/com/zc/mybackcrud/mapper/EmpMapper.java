@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface EmpMapper {
@@ -34,4 +35,6 @@ public interface EmpMapper {
     public Emp findById(Integer id);
 
     public Emp findByIdExpr(Integer id);
+
+    public List<Map<String,Object>> findSimple();
 }

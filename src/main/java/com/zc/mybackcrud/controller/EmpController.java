@@ -1,6 +1,7 @@
 package com.zc.mybackcrud.controller;
 
 import com.zc.mybackcrud.pojo.Emp;
+import com.zc.mybackcrud.pojo.EnumClazz;
 import com.zc.mybackcrud.pojo.PageResult;
 import com.zc.mybackcrud.pojo.Result;
 import com.zc.mybackcrud.service.EmpService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -65,6 +67,13 @@ public class EmpController {
     public Result findByIdWithExp(@PathVariable Integer id){
         Emp emp = empService.findByExp(id);
         return Result.success(emp);
+    }
+
+    // 只返回员工名字与id
+    @GetMapping("/emps/simple")
+    public Result findSimple(){
+        EnumClazz enumClazz = empService.findSimple();
+        return Result.success(enumClazz);
     }
 
 }

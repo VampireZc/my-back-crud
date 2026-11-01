@@ -12,6 +12,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public Result handleException(Exception e){
+        System.out.println(e.getMessage());
         return Result.error("出错了，请联系管理员~");
     }
 
