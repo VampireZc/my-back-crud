@@ -5,8 +5,8 @@
 
 <mapper namespace="com.zc.mybackcrud.mapper.ClazzMapper">
     <insert id="addClazz">
-        insert into clazz (name, room, begin_date, end_date, subject, master_id)
-        values (#{name}, #{room}, #{beginDate}, #{endDate}, #{subject}, #{masterId})
+        insert into clazz (name, room, begin_date, end_date, subject, master_id, create_time, update_time)
+        values (#{name}, #{room}, #{beginDate}, #{endDate}, #{subject}, #{masterId}, #{createTime}, #{updateTime})
     </insert>
 
     <update id="updateClazz">
@@ -29,6 +29,9 @@
                 </if>
                 <if test="masterId != null">
                     master_id = #{masterId},
+                </if>
+                <if test="updateTime != null">
+                    update_time = #{updateTime},
                 </if>
             </set>
         where id = #{id}
@@ -56,6 +59,6 @@
         </where>
     </select>
     <select id="findById" resultType="com.zc.mybackcrud.pojo.Clazz">
-        select t1.id, t1.name, t1.room, t1.begin_date, t1.end_date, t1.subject, t2.name as master_name from clazz t1 left join emp t2 on t1.master_id = t2.id where t1.id = #{id}
+        select t1.id, t1.name, t1.room, t1.begin_date, t1.end_date, t1.subject, t1.master_id from clazz t1 left join emp t2 on t1.master_id = t2.id where t1.id = #{id}
     </select>
 </mapper>

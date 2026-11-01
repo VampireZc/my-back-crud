@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zc.mybackcrud.mapper.StuMapper">
+    <insert id="insert">
+        insert into student (name, no, phone, gender, id_card, is_college, address, degree, graduation_date, clazz_id,create_time,update_time)
+        values (#{name}, #{no}, #{phone}, #{gender}, #{idCard}, #{isCollege}, #{address}, #{degree}, #{graduationDate}, #{clazzId},#{createTime},#{updateTime})
+    </insert>
+    <insert id="addViolation">
+        update student set violation_count = violation_count + 1, violation_score = violation_score + #{score}, update_time = #{updateTime} where id = #{id}
+    </insert>
+
+    <update id="update">
+        update student
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="no != null">
+                no = #{no},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="idCard != null">
+                id_card = #{idCard},
+            </if>
+            <if test="isCollege != null">
+                is_college = #{isCollege},
+            </if>
+            <if test="address != null">
+                address = #{address},
+            </if>
+            <if test="degree != null">
+                degree = #{degree},
+            </if>
+            <if test="graduationDate != null">
+                graduation_date = #{graduationDate},
+            </if>
+            <if test="clazzId != null">
+                clazz_id = #{clazzId},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from student where id = #{id}
+    </delete>
+
+    <select id="getStus" resultType="com.zc.mybackcrud.pojo.Student">
+        select
+        t1.id,
+        t1.name,
+        t1.no,
+        t1.phone,
+        t1.violation_count,
+        t1.violation_score,
+        t1.update_time,
+        t2.name as clazz_name,
+        (
+        case t1.degree
+        when 1 then '初中'
+        when 2 then '高中'
+        when 3 then '大专'
+        when 4 then '本科'
+        when 5 then '硕士'
+        when 6 then '博士'
+        else '其他' end
+        ) as degree,
+        (
+        case t1.gender
+        when 1 then '男'
+        when 2 then '女'
+        else '其他' end
+        ) as gender
+        from student t1 left join clazz t2 on t1.clazz_id = t2.id
+        <where>
+            <if test="name != null">
+                t1.name like CONCAT('%', #{name}, '%')
+            </if>
+            <if test="degree != null">
+                t1.degree = #{degree}
+            </if>
+            <if test="clazzId != null">
+                t1.clazz_id = #{clazzId}
+            </if>
+        </where>
+    </select>
+    <select id="getStu" resultType="com.zc.mybackcrud.pojo.Student">
+        select
+            t1.name,
+            t1.no,
+            t1.phone,
+            t1.gender,
+            t1.id_card,
+            t1.is_college,
+            t1.address,
+            t1.degree,
+            t1.graduation_date,
+            t1.clazz_id
+        from student t1 where t1.id = #{id}
+    </select>
+</mapper>

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -23,7 +24,6 @@ public class ClazzServiceImpl implements ClazzService {
 
     @Override
     public PageResult findAll(String name, String begin, String end, Integer page, Integer pageSize) {
-        System.out.println("name = " + name + ", begin = " + begin + ", end = " + end + ", page = " + page + ", pageSize = " + pageSize);
         PageHelper.startPage(page, pageSize);
         List<Clazz> list = clazzMapper.findAll(name, begin, end);
         list.forEach(clazz -> {
@@ -46,6 +46,8 @@ public class ClazzServiceImpl implements ClazzService {
 
     @Override
     public void addClazz(Clazz clazz) {
+        clazz.setCreateTime(LocalDateTime.now());
+        clazz.setUpdateTime(LocalDateTime.now());
         clazzMapper.addClazz(clazz);
     }
 
@@ -56,6 +58,8 @@ public class ClazzServiceImpl implements ClazzService {
 
     @Override
     public void updateClazz(Clazz clazz) {
+        // 更新修改时间
+        clazz.setUpdateTime(LocalDateTime.now());
         clazzMapper.updateClazz(clazz);
     }
 }
