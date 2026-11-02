@@ -94,6 +94,7 @@
                 t1.clazz_id = #{clazzId}
             </if>
         </where>
+        order by t1.id desc
     </select>
     <select id="getStu" resultType="com.zc.mybackcrud.pojo.Student">
         select

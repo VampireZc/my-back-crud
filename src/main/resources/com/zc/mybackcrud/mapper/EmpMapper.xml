@@ -28,7 +28,7 @@
                 and #{end}
             </if>
         </where>
-        order by e.update_time desc
+        order by e.id desc
     </select>
 
     <!--统计总条数-->

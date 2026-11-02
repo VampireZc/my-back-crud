@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class TokenUtils {
     private final static String SECRET = "emhhbmdjb25n";
-    private final static long EXPIRE = 60 * 1000; // 1 分钟
+    private final static long EXPIRE = 60 * 1000 * 60; // 1 分钟
     // 生成token
     public static String generateToken(Map<String, Object> claims) {
         return Jwts.builder()

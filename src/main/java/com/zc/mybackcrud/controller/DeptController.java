@@ -1,5 +1,6 @@
 package com.zc.mybackcrud.controller;
 
+import com.zc.mybackcrud.anno.LogOperation;
 import com.zc.mybackcrud.pojo.Dept;
 import com.zc.mybackcrud.pojo.PageResult;
 import com.zc.mybackcrud.pojo.Result;
@@ -38,6 +39,7 @@ public class DeptController {
 
     // 删除部门 /depts?id=19
     @DeleteMapping("/depts")
+    @LogOperation
     // 其实只要传递的参数名和方法参数名一致，@RequestParam可以省略
     public Result delete(@RequestParam(value = "id", required = true) Integer id){
         Integer row = deptService.deleteById(id);
@@ -52,6 +54,7 @@ public class DeptController {
 
     // 新增部门
     @PostMapping("/depts")
+    @LogOperation
     public Result add(@RequestBody Dept dept){
         log.info("新增部门: {}", dept);
          deptService.save(dept);
@@ -60,6 +63,7 @@ public class DeptController {
 
     //修改部门
     @PutMapping("/depts")
+    @LogOperation
     public Result update(@RequestBody Dept dept){
         log.info("修改部门：{}", dept);
         deptService.update(dept);
