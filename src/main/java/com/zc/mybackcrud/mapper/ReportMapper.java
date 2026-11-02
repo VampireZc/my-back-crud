@@ -13,4 +13,8 @@ public interface ReportMapper {
     public List<Map<String, Object>> getJobReport();
 
     public List<Map<String, Object>> getSexReport();
+
+    public List<Map<String, Object>>  getClazzNum();
+
+    public List<Map<String, Object>> getGenderReport();
 }

@@ -27,4 +27,6 @@ public interface EmpService {
 
     // 员工枚举
     public EnumClazz findSimple();
+
+    public Emp loginInfo(Emp emp);
 }

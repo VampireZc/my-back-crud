@@ -29,4 +29,16 @@ public class ReportController {
         List<Map<String, Object>> list = reportService.getSexReport();
         return Result.success(list);
     }
+
+    @GetMapping("/report/clazzNum")
+    public Result getClazzNumReport(){
+        JobOption list = reportService.getClazzNumReport();
+        return Result.success(list);
+    }
+
+    @GetMapping("/report/gender")
+    public Result getGenderReport(){
+        List<Map<String, Object>> list = reportService.getGenderReport();
+        return Result.success(list);
+    }
 }

@@ -36,4 +36,19 @@ public class ReportServiceImpl implements ReportService {
         System.out.println(ls);
         return ls;
     }
+
+    @Override
+    public JobOption getClazzNumReport() {
+        List<Map<String, Object>> list = reportMapper.getClazzNum();
+        List<Object> jobList = list.stream().map(s -> s.get("name")).toList();
+        List<Object> dataList = list.stream().map(s -> s.get("num")).toList();
+        return new JobOption(jobList, dataList);
+    }
+
+    @Override
+    public List<Map<String, Object>> getGenderReport() {
+        return reportMapper.getGenderReport();
+    }
+
+
 }

@@ -8,6 +8,7 @@ import com.zc.mybackcrud.pojo.*;
 import com.zc.mybackcrud.pojo.ENUM.Subject;
 import com.zc.mybackcrud.service.EmpLogService;
 import com.zc.mybackcrud.service.EmpService;
+import com.zc.mybackcrud.untils.TokenUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import tools.jackson.databind.ext.javatime.deser.LocalDateTimeDeserializer;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -146,5 +148,23 @@ public class EmpServiceImpl implements EmpService {
                 .toList();
 
         return new EnumClazz(mapList, Subject.options());
+    }
+
+    @Override
+    public Emp loginInfo(Emp emp) {
+        Emp info = empMapper.loginInfo(emp);
+
+        if (info != null){
+            // 创建一个 Map 对象，用于存储用户信息
+            HashMap<String, Object> infoMap = new HashMap<>();
+            infoMap.put("id", info.getId());
+            infoMap.put("username", info.getUsername());
+
+            String token = TokenUtils.generateToken(infoMap);
+            System.out.println("token: " + token);
+            info.setToken(token);
+            return info;
+        }
+        return null;
     }
 }

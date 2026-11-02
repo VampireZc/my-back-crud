@@ -11,4 +11,8 @@ public interface ReportService {
 
    // 性别统计
     public List<Map<String, Object>> getSexReport();
+
+    public JobOption getClazzNumReport();
+
+    public List<Map<String, Object>> getGenderReport();
 }

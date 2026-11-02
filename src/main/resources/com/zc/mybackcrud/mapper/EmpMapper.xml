@@ -89,7 +89,9 @@
     <select id="findSimple" resultType="java.util.Map">
         select id ,name from emp
     </select>
-
+    <select id="loginInfo" resultType="com.zc.mybackcrud.pojo.Emp">
+        select id, username, name from emp where username = #{username} and password = #{password}
+    </select>
 
     <resultMap id="empResultMap" type="com.zc.mybackcrud.pojo.Emp">
         <id property="id" column="id"/>

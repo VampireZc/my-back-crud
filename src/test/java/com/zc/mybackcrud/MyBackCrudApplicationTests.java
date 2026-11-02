@@ -9,5 +9,4 @@ class MyBackCrudApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

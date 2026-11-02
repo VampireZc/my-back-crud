@@ -37,4 +37,6 @@ public interface EmpMapper {
     public Emp findByIdExpr(Integer id);
 
     public List<Map<String,Object>> findSimple();
+
+    public Emp loginInfo(Emp emp);
 }

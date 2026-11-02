@@ -32,4 +32,6 @@ public class Emp {
     // 封装员工经历
     private List<EmpExpr> exprList;
 
+    private String token; // 登录令牌
+
 }
