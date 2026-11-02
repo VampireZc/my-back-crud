@@ -3,6 +3,7 @@ package com.zc.mybackcrud.Aop;
 import com.zc.mybackcrud.anno.LogOperation;
 import com.zc.mybackcrud.mapper.OperateLogMapper;
 import com.zc.mybackcrud.pojo.OperateLog;
+import com.zc.mybackcrud.untils.CurrentHolder;
 import com.zc.mybackcrud.untils.TokenUtils;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
@@ -54,25 +55,26 @@ public class OperationLogAspect {
 
     // 获取当前用户ID：从当前请求线程的 token 请求头中解析登录时写入的 id claim
     private Integer getCurrentUserId() {
+        return CurrentHolder.getCurrentId();
         // 非 Web 请求线程（如异步、定时任务）拿不到 RequestContext
-        ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (attrs == null) {
-            log.warn("无法获取当前请求上下文，操作人ID置空");
-            return null;
-        }
-        HttpServletRequest request = attrs.getRequest();
-        String token = request.getHeader("token");
-        if (token == null || token.isEmpty()) {
-            log.warn("请求头中不存在 token，无法解析操作人ID");
-            return null;
-        }
-        try {
-            Claims claims = TokenUtils.parseToken(token);
-            Object id = claims.get("id");
-            return id == null ? null : Integer.valueOf(id.toString());
-        } catch (Exception e) {
-            log.warn("解析 token 获取操作人ID失败", e);
-            return null;
-        }
+//        ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+//        if (attrs == null) {
+//            log.warn("无法获取当前请求上下文，操作人ID置空");
+//            return null;
+//        }
+//        HttpServletRequest request = attrs.getRequest();
+//        String token = request.getHeader("token");
+//        if (token == null || token.isEmpty()) {
+//            log.warn("请求头中不存在 token，无法解析操作人ID");
+//            return null;
+//        }
+//        try {
+//            Claims claims = TokenUtils.parseToken(token);
+//            Object id = claims.get("id");
+//            return id == null ? null : Integer.valueOf(id.toString());
+//        } catch (Exception e) {
+//            log.warn("解析 token 获取操作人ID失败", e);
+//            return null;
+//        }
     }
 }

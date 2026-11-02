@@ -1,6 +1,8 @@
 package com.zc.mybackcrud.Interceptor;
 
+import com.zc.mybackcrud.untils.CurrentHolder;
 import com.zc.mybackcrud.untils.TokenUtils;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +31,10 @@ public class TokenInterceptor implements HandlerInterceptor {
 
         // 校验token
         try {
-            TokenUtils.parseToken(token);
+            Claims claims = TokenUtils.parseToken(token);
+            // 设置当前用户id到线程本地变量
+            Integer empId = Integer.valueOf(claims.get("id").toString());
+            CurrentHolder.setCurrentId(empId);
         } catch (Exception e) {
             log.info("interceptor，token 校验失败");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -37,7 +42,14 @@ public class TokenInterceptor implements HandlerInterceptor {
         }
 
         log.info("interceptor，token 校验通过");
-        // 放行
+
+        // 放行（当前用户id已存入 ThreadLocal，供 Controller / 切面读取）
         return true;
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+        // 请求处理完毕后再清理，既避免线程池内存泄漏，又保证切面执行时仍能取到当前用户
+        CurrentHolder.remove();
     }
 }
