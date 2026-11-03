@@ -21,6 +21,7 @@
     <!-- 聚合子模块：crud-pojo 数据对象模块、crud-server 主应用模块 -->
     <modules>
         <module>crud-pojo</module>
+        <module>crud-untils</module>
         <module>crud-server</module>
     </modules>
 
