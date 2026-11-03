@@ -12,6 +12,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 @Slf4j
 public class TokenInterceptor implements HandlerInterceptor {
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 是登录的时候生成token 需要放行
@@ -42,14 +43,12 @@ public class TokenInterceptor implements HandlerInterceptor {
         }
 
         log.info("interceptor，token 校验通过");
-
-        // 放行（当前用户id已存入 ThreadLocal，供 Controller / 切面读取）
         return true;
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        // 请求处理完毕后再清理，既避免线程池内存泄漏，又保证切面执行时仍能取到当前用户
+        // 请求处理完毕后再清理
         CurrentHolder.remove();
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.boot.web.server.servlet.context.ServletComponentScan;
 // @ServletComponentScan // 启用 Servlet 组件扫描 使得过滤器生效
 @SpringBootApplication
 public class MyBackCrudApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(MyBackCrudApplication.class, args);
     }
