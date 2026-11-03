@@ -4,27 +4,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.zc</groupId>
-    <artifactId>crud-pojo</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <parent>
+        <groupId>com.zc</groupId>
+        <artifactId>my-back-crud</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
 
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <artifactId>crud-pojo</artifactId>
+    <name>crud-pojo</name>
+    <description>数据对象模块：POJO、枚举与通用返回结构</description>
 
     <dependencies>
+        <!-- 仅序列化注解需要，版本由 spring-boot-dependencies 统一管理 -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.34</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <version>3.2.8</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
         </dependency>
     </dependencies>
 

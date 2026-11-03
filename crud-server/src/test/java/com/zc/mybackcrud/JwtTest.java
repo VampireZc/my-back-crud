@@ -32,7 +32,15 @@ public class JwtTest {
     // 解析jwt
     @Test
     public void paserToken(){
-        String token = "eyJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6bnVsbCwidXNlcm5hbWUiOiJ3dXlvbmciLCJleHAiOjE3OTM1OTc3Mzh9.ZDvX7_BQStsF8Lht3PHZWSe3QsZlzB-ppznslIG-usA";
+        // 动态生成未过期的 token，避免硬编码 token 过期导致测试失败
+        Map<String, Object> mapInfo = new HashMap<>();
+        mapInfo.put("username", "wuyong");
+        String token = Jwts.builder()
+                .signWith(SignatureAlgorithm.HS256, "emhhbmdjb25n")
+                .addClaims(mapInfo)
+                .setExpiration(new Date(System.currentTimeMillis() + 36000 * 1000))
+                .compact();
+
         Claims body = Jwts.parser()
                 .setSigningKey("emhhbmdjb25n") // 设置密钥
                 .parseClaimsJws(token) // 解析令牌
