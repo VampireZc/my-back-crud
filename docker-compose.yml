@@ -1,0 +1,52 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "123"
+      TZ: Asia/Shanghai
+    ports:
+      - "3307:3306"
+    volumes:
+      - /Users/zc/my/study/data:/var/lib/mysql
+      - /Users/zc/my/study/conf:/etc/mysql/conf.d
+      - /Users/zc/my/study/init:/docker-entrypoint-initdb.d
+    networks:
+      - crud-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p123"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  spring-app:
+    image: my-spring-app:v2
+    container_name: spring-app
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    command: ["--spring.profiles.active=docker"]
+    ports:
+      - "8080:8080"
+    networks:
+      - crud-net
+
+  nginx:
+    image: nginx:latest
+    container_name: zc-demo
+    restart: unless-stopped
+    depends_on:
+      - spring-app
+    ports:
+      - "8031:80"
+    volumes:
+      - /Users/zc/my/IdeaProjects/Spring/CRUD/my-front-crud/dist:/usr/share/nginx/html:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - crud-net
+
+networks:
+  crud-net:
+    driver: bridge
